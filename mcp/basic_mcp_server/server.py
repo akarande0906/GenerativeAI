@@ -1,4 +1,8 @@
 from mcp.server.fastmcp import FastMCP
+import requests_cache
+import requests
+from retry_requests import retry
+import openmeteo_requests
 
 
 
@@ -8,7 +12,7 @@ mcp = FastMCP("Simple MCP Server")
 def main():
     mcp.run()
 
-''' To be uncommented 
+
 def _get_lat_long(city: str) -> tuple:
     """Get latitude and longitude for a given city."""
     # Hardcoded here. Needs to be better handled.
@@ -66,7 +70,16 @@ def _get_weather(city: str) -> dict:
     else:
         return "Sorry could not retrieve weather data for the specified city."
 
-'''
+def _get_joke():
+    _endpoint = 'https://icanhazdadjoke.com/'
+    _headers = {'Accept': 'application/json'}
+    resp = requests.get(_endpoint, headers=_headers)
+    ret_json = resp.json()
+    status = ret_json['status']
+    joke = "Its no joke!"
+    if resp.status_code == 200 and status == 200:
+        joke = ret_json['joke']
+    return joke
 
 # Add an addition tool
 @mcp.tool()
@@ -75,11 +88,18 @@ def add(a: int, b: int) -> int:
     return a + b
 
 # Add a weather resource
-@mcp.resource("weather://{city}")
+@mcp.tool()
 def get_weather(city: str) -> dict:
     """Get weather information for a given city"""
-    return {"message": "Weather data functionality is currently disabled."}
-    #return _get_weather(city)
+    # return {"message": "Weather data functionality is currently disabled."}
+    return _get_weather(city)
+
+# Add a joke tool
+@mcp.tool()
+def tell_joke() -> str:
+    """Tell me a joke"""
+    return _get_joke()
+    # return "Why did the scarecrow win an award? Because he was outstanding in his field!"
 
 
 # Add a dynamic greeting resource
