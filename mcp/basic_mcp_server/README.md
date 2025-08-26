@@ -27,7 +27,12 @@ source .venv/bin/activate
 
 Alternately, open the Command Palette ( using CMD+SHIFT+P on MAC or CTRL+P on Windows and select 'Python: Set project environment' and select the 'activate' binary.
 
-3. Test the MCP Server in Dev Mode:
+3. Install dependant libraries:
+```
+uv pip install <package-name>
+```
+   
+4. Test the MCP Server in Dev Mode:
    
 ```
 uv run dev server.py
@@ -72,10 +77,14 @@ This MCP Server is very basic (hence the name) and supports the following functi
 
 1. Add 2 numbers
 2. Generate a Greeting for the user.
+3. Gets the weather for a specific city.
+4. Tells you a 'Dad' joke.
 
 To interact with the MCP Server, in the Chat interface set the mode to 'Agent' instead of 'Ask'.
 
 **TBD**
 
-I am adding more features to the MCP Server. Generally MCP Servers cater to a specific domain/feature, but I'm going to call this a Swiss Army Knife just to experiment with different interfaces. What I'm planning to add next:
-1. Simple Weather service, which I will extend to a trip planner. For now if you ask for the weather you will see a 'Currently disabled' message.
+I am adding more features to the MCP Server. Generally MCP Servers cater to a specific domain/feature, but I'm going to call this a Swiss Army Knife just to experiment with different interfaces. What I'm planning to add/update next:
+1. The Simple weather service will pick up the first matching city name. So 'Whats the weather in Salem' for example may return the weather for Salem, Oregon and not Salem, Massachusetts. This ambiguity can be addressed through elicitation, which needs to be added in. 
+2. The code in server.py is packed into one file. This will need to be modularized for better readability.
+3. Write MCP Servers for very specific domains.
