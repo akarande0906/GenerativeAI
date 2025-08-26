@@ -1,0 +1,16 @@
+[project]
+name = "basic-mcp-server"
+version = "0.1.0"
+description = "Basic MCP Server"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "mcp[cli]>=1.13.1",
+]
+
+[project.scripts]
+basic-mcp-server = "server:main"
+
+[tool.uv]
+package = true
+
